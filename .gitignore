@@ -1,0 +1,13 @@
+# Backend
+backend/__pycache__/
+backend/*.pyc
+# NOTE: term_deposit_model.joblib is NOT ignored — Render needs it in the repo to deploy.
+# If it ever exceeds ~100MB, switch to Git LFS instead of committing it directly.
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# OS
+.DS_Store
