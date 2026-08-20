@@ -76,22 +76,22 @@ Customer Data (raw, with text fields)
 │  ColumnTransformer                       │
 │                                          │
 │  Numerical columns (age, balance, etc.)  │
-│    └─► StandardScaler                   │
+│    └─► StandardScaler                    │
 │         Subtracts mean, divides by std   │
-│         e.g. age=58 → normalised ~1.2   │
+│         e.g. age=58 → normalised ~1.2    │
 │                                          │
-│  Categorical columns (job, month, etc.) │
-│    └─► OneHotEncoder                    │
-│         Turns text into binary columns  │
-│         e.g. job="retired" →            │
-│         [0,0,0,0,0,0,0,0,1,0,0,0]      │
+│  Categorical columns (job, month, etc.)  │
+│    └─► OneHotEncoder                     │ 
+│         Turns text into binary columns   │
+│         e.g. job="retired" →             │
+│         [0,0,0,0,0,0,0,0,1,0,0,0]        │
 └──────────────────────────────────────────┘
             │
             ▼
 ┌──────────────────────────────────────────┐
 │  RandomForestClassifier                  │
 │  → outputs predict_proba()               │
-│    e.g. [0.18, 0.82] → P(yes) = 82%    │
+│    e.g. [0.18, 0.82] → P(yes) = 82%      │
 └──────────────────────────────────────────┘
             │
             ▼
@@ -143,7 +143,7 @@ Customer Data
       ├──► Tree 003 → "Likely"     │  majority
       ├──► Tree 004 → "Likely"     ├─ vote
       │         ...                │
-      └──► Tree 100 → "Likely"   ─┘
+      └──► Tree 100 → "Likely"    ─┘
                                    │
                 Final prediction: "LIKELY"
                 Probability: 74%   (74/100 trees voted yes)
@@ -256,33 +256,33 @@ The model receives **16 features** (15 from the form + 1 engineered in the backe
 
 ```
 ┌──────────────────────────────────────────────────────┐
-│                    Browser (React)                    │
-│                                                       │
-│  App.jsx — single component, useState for:            │
-│    form values, result, loading, error, probWidth     │
-│                                                       │
+│                    Browser (React)                   │
+│                                                      │
+│  App.jsx — single component, useState for:           │
+│    form values, result, loading, error, probWidth    │
+│                                                      │
 │  handleSubmit() → coerces strings to numbers →       │
 │  fetch POST /predict → updates result state          │
-│                                                       │
+│                                                      │
 │  index.css — 100vh flex layout, form scrolls         │
-│  internally, result card stays fixed beside it        │
+│  internally, result card stays fixed beside it       │
 └──────────────────────┬───────────────────────────────┘
                        │  HTTP POST /predict
                        │  Content-Type: application/json
                        ▼
 ┌──────────────────────────────────────────────────────┐
-│              FastAPI (Python, Uvicorn)                │
-│                                                       │
+│              FastAPI (Python, Uvicorn)               │
+│                                                      │
 │  CORS middleware — allows any origin in dev;         │
 │  in prod, ALLOWED_ORIGIN env var locks it down       │
-│                                                       │
-│  POST /predict                                        │
+│                                                      │
+│  POST /predict                                       │
 │    1. Pydantic (CustomerInput) validates JSON        │
 │    2. Builds pdays_value & was_contacted_before      │
 │    3. Creates a 1-row pandas DataFrame               │
 │    4. model.predict_proba(row)[0][1] → P(yes)        │
 │    5. Returns PredictionResponse JSON                │
-│                                                       │
+│                                                      │
 │  GET / → health check { status, model_loaded }       │
 └──────────────────────┬───────────────────────────────┘
                        │  loaded once on startup
